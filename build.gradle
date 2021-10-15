@@ -1,0 +1,35 @@
+plugins {
+    id "org.jetbrains.kotlin.jvm" version "1.5.31"
+    id "com.github.johnrengelman.shadow" version "5.2.0"
+}
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.31'
+
+    compileOnly fileTree(dir: "lib")
+
+    compileOnly "com.github.mkotb:ConfigAPI:e1c8df3f13"
+    compileOnly "org.spigotmc:spigot-api:1.8.8-R0.1-SNAPSHOT"
+}
+
+compileKotlin {
+    kotlinOptions.javaParameters = true
+    kotlinOptions.jvmTarget = "1.8"
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+shadowJar {
+    classifier = "all"
+    exclude "**/*.kotlin_metadata"
+    exclude "**/*.kotlin_builtins"
+    exclude "META-INF/"
+
+    archiveFileName = "aup.jar"
+}

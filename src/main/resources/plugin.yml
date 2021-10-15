@@ -1,0 +1,10 @@
+name: AUP
+version: 1.0.0
+main: gg.scala.aup.AutoUpdaterPlugin
+
+author: Scala
+website: https://scala.gg
+
+load: POSTWORLD
+
+depend: [Lemon, Cubed, helper]
