@@ -21,6 +21,19 @@ class AutoUpdaterPlugin : ExtendedScalaPlugin()
 
         this.downloaderDirectory = this.config.getString("downloader-folder")
 
+        fetchPossibleUpdates()
+
+        Runtime.getRuntime().addShutdownHook(
+            Thread {
+                fetchPossibleUpdates()
+
+                this.filesToUpdate.forEach(this::executeFileUpdate)
+            }
+        )
+    }
+
+    private fun fetchPossibleUpdates()
+    {
         val file = File(this.downloaderDirectory)
         val subFiles = file.list()
 
@@ -33,6 +46,11 @@ class AutoUpdaterPlugin : ExtendedScalaPlugin()
 
             for (subFile in subFiles)
             {
+                if (this.filesToUpdate.contains(subFile))
+                {
+                    continue
+                }
+
                 this.filesToUpdate.add(subFile)
                 this.broadcastColor("${CC.YELLOW}$subFile${CC.GREEN} will be updated on the next reboot.")
             }
@@ -40,12 +58,6 @@ class AutoUpdaterPlugin : ExtendedScalaPlugin()
         {
             this.broadcastColor("No required updates have been found.")
         }
-
-        Runtime.getRuntime().addShutdownHook(
-            Thread {
-                this.filesToUpdate.forEach(this::executeFileUpdate)
-            }
-        )
     }
 
     private fun broadcastColor(message: String)
