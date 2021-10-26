@@ -72,7 +72,7 @@ class AutoUpdaterPlugin : ExtendedScalaPlugin()
             val container = server.worldContainer.path
 
             Runtime.getRuntime()
-                .exec("cp -R $downloaderDirectory$file $container/plugins")
+                .exec("cp -R $downloaderDirectory/$file $container/plugins")
         } catch (ignored: Exception) {
             println("[AUP] Failed to update $file!")
         }
